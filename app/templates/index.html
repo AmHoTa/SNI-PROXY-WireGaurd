@@ -20,6 +20,14 @@
             resize: vertical;
             font-family: monospace;
         }
+        .status {
+            margin: 30px auto;
+            width: 80%;
+            border: 1px solid #4CAF50;
+            padding: 20px;
+            background-color: #f0fff0;
+            font-family: sans-serif;
+        }
     </style>
 </head>
 <body>
@@ -39,6 +47,12 @@
             <button type="submit">Submit Right</button>
         </form>
 
+    </div>
+
+    <!-- Health Status Section -->
+    <div class="status">
+        <h3>Health Status</h3>
+        <pre>{{ health_status }}</pre>
     </div>
 </body>
 </html>

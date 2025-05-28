@@ -9,7 +9,7 @@ import os
 #
 
 DNSDIST_CONFIG_PATH = "/etc/dnsdist/dnsdist.conf"
-DNSMASQ_CONFIG_PATH = "/root/sniproxy-wg/dnsmasq.conf"
+DNSMASQ_CONFIG_PATH = "/root/sni-proxy/dnsmasq.conf"
 
 # We Assume 1 Thing Here: below variable MUST! exist in dnsdist.conf  
 # subnets             :       list of subnets we want to proxy with SNI
@@ -60,11 +60,14 @@ def index():
             if domain: domains += domain
         
 
+    command = subprocess.run("docker ps", shell=True, text=True, capture_output=True)
 
+    print(command.stdout)
     return render_template(
         'index.html',
         left_text="\n".join(subnets),
-        right_text="\n".join(domains)
+        right_text="\n".join(domains),
+        health_status = command.stdout
     )
 
 
@@ -88,7 +91,7 @@ setACL('0.0.0.0/0')
 webserver('0.0.0.0:5353')
 setWebserverConfig({{password="1234", apiKey="12345", acl="0.0.0.0/0"}})
 
-newServer({{address = '127.0.0.1:530', pool='sniproxy'}})
+newServer({{address = '192.168.12.22:530', pool='sniproxy'}})
 addAction(NetmaskGroupRule(subnets), PoolAction("sniproxy"))
 
 """
